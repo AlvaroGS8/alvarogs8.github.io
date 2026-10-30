@@ -41,7 +41,7 @@ h2::before{content:"C:\\alvaro>";color:var(--cy);margin-right:.7ch}.filters{disp
 .card{position:relative;background:var(--bg);border:1px solid var(--line);overflow:hidden;cursor:pointer;text-align:left;padding:0;font:inherit;color:inherit;display:block;width:100%;border-radius:0}
 .card:hover,.card:focus-visible{border-color:var(--fg);box-shadow:0 0 0 1px var(--fg)}
 .thumb{aspect-ratio:16/9;background:repeating-linear-gradient(0deg,rgba(204,204,204,.07) 0 1px,transparent 1px 4px),radial-gradient(circle at 50% 38%,#17242f,var(--bg) 72%);display:grid;place-items:center;font:400 3.2rem var(--disp);color:var(--yel);overflow:hidden;position:relative}
-.thumb video,.hero2 video{width:100%;height:100%;object-fit:cover;display:block}.hero2 video{object-fit:contain;background:#000}.thumb img,.hero2 img{width:100%;height:100%;object-fit:cover;display:block}.body{padding:12px 14px 14px;border-top:1px solid var(--line)}
+.thumb video,.hero2 video{width:100%;height:100%;object-fit:cover;display:block}.hero2 video{object-fit:contain;background:#000}.hero2.v{display:block;margin:0 auto;background:#000}.hero2.v iframe{width:100%;height:100%;border:0;display:block}.thumb img,.hero2 img{width:100%;height:100%;object-fit:cover;display:block}.body{padding:12px 14px 14px;border-top:1px solid var(--line)}
 .body h3{font:400 1.6rem/1.1 var(--disp);color:var(--hi)}
 .body .meta{font-size:.8rem;color:var(--mute);margin-top:2px}
 .body .meta:first-child{display:none}
@@ -126,7 +126,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--yel);outline-offset
 
   <section id="skills"><h2>skills --list</h2>
     <div class="skills">
-      <div class="sk"><h3>Languages</h3><ul><li>C++</li><li>C#</li><li>Basic ARM Assembly</li><li>Basic Python</li></ul></div>
+      <div class="sk"><h3>Languages</h3><ul><li>C++</li><li>C#</li><li>ARM Assembly</li><li>Python Tooling</li></ul></div>
       <div class="sk"><h3>Engines &amp; tools</h3><ul><li>Unreal Engine 5 (C++)</li><li>Unity (XR Hands)</li><li>ImGui</li><li>Visual Studio debugging</li><li>Git and Perforce</li></ul></div>
       <div class="sk"><h3>Areas</h3><p class="note">Number of projects where I have worked on each</p><ul class="cnt"><li>Gameplay programming<small>5 projects</small></li><li>Multiplayer and replication<small>1 project</small></li><li>Graphics and shaders<small>1 project</small></li><li>Hand tracking and VR<small>1 project</small></li><li>Enemy AI<small>1 project</small></li></ul></div>
       <div class="sk"><h3>Soft skills</h3><ul><li>Teamwork</li><li>Problem solving</li><li>Adaptability</li><li>Communication</li><li>Receptive to feedback</li></ul></div>
@@ -147,13 +147,14 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--yel);outline-offset
 <script>
 /* ============ EDIT YOUR PROJECTS HERE ============
    video: path to a looping MP4 (e.g. "media/hook.mp4"). Empty = placeholder.
+   vimeo: Vimeo video id for the full video shown when a project is opened. ratio: "4/3" or "16/9".
    gif: optional, same idea with a GIF/image. If both are set, the video wins.
    gallery: extra images. links: [label, url].
    cat: must match a name in CATEGORIES (order = display order). */
 const CATEGORIES=["Unreal Engine 5 (C++)","Graphics & Custom Engines (C++)","Unity (C#)"];
 const PROJECTS=[
 {id:"puppeteers",cat:CATEGORIES[0],title:"Puppeteers",year:"2026",team:"Team of 3",role:"Gameplay & network programmer (hook, run, object replication)",
- engine:"Unreal Engine 5, C++, Epic Online Services (P2P), Perforce",gif:"",video:"media/gifonline.mp4",
+ engine:"Unreal Engine 5, C++, Epic Online Services (P2P), Perforce",gif:"",video:"media/gifonline.mp4",vimeo:"1241220855",ratio:"4/3",
  summary:"Online co-op 3D platformer: share 3 lives and use a grappling hook to reach high places and stun enemies.",
  tags:["UE5","C++","Multiplayer","Replication"],
  overview:"Puppeteers is a networked 3D platformer where players must reach the end of a level together. They face obstacles and enemies, and share 3 lives: if they run out, everyone loses. The grappling hook has only two uses: reaching places that are too high and stunning enemies. Built in the second semester at ESAT, in Unreal Engine 5 with almost all the code in C++, and delivered on the planned date. Online sessions use Epic Online Services with P2P connections.",
@@ -161,7 +162,7 @@ const PROJECTS=[
  challenges:["<b>Hook not replicating well on clients.</b> At first the hook did not look right on the clients. I fixed it by moving the application of the hook velocity into a multicast, so it runs on every client and not only on the server.","<b>Characters ending up in different places on each client.</b> With UE5 physics driving the ragdoll and the hook impulses, the simulation diverged and a character could end up in a different spot on every client. I added a correction in Tick: the server stores the pelvis position and velocity, and each client compares its own pelvis with it. If it has drifted too far (more than a set distance), the client moves the body to the server position and restores the velocity.","<b>Objects not replicating correctly.</b> Sometimes, when a player dropped a carried object, it did not replicate properly and its size did not return to the original. I restructured the pick-up and drop flow so the server decides and a multicast explicitly applies attachment, collisions and scale on every client.","<b>Jitter in online play (team).</b> Testers reported jitter, which we traced mostly to P2P connections and to a design where clients wait for the server. Next time we would use a dedicated server and client-side prediction with server correction.","<b>Playtest result.</b> In a survey of 4 testers, the hook was rated 5/5 by three and 4/5 by one."],
  links:[["Source code","#"],["Video","#"]],gallery:[]},
 {id:"graphic-scene",cat:CATEGORIES[1],title:"Graphic Scene with ESAT's Engine",year:"2026",team:"Team of 3",role:"Graphics & tools programmer",
- engine:"C++, ESAT engine, vertex/fragment shaders, ImGui, nlohmann JSON",gif:"",video:"media/gifgrafica.mp4",
+ engine:"C++, ESAT engine, vertex/fragment shaders, ImGui, nlohmann JSON",gif:"",video:"media/gifgrafica.mp4",vimeo:"1241220856",ratio:"4/3",
  summary:"Real-time 3D scene with dynamic lights, a CRT post-process and live ImGui tools.",
  tags:["C++","Shaders","Lighting","ImGui"],
  overview:"A real-time 3D scene built on ESAT's own C++ engine by a team of three as a course project. The world has a terrain, a cloud system, a day-night cycle and a UFO, all lit and drawn through custom shaders. The team built the base pieces: the math library, a custom material, a cube geometry and a custom shader. I worked on the look of the scene: three types of light (directional, point and spot) that can be created and edited while it runs, a CRT screen effect, and the UFO, modelled from a revolution surface. Lights and effects can be saved and loaded as presets, and an on-screen interface lets you change almost everything live.",
@@ -169,7 +170,7 @@ const PROJECTS=[
  challenges:["<b>Normals and UVs of the revolution surface.</b> Normals are calculated from the adjacent vertices, which does not work at the two end points of the profile, so I gave them an extra fixed normal pointing down at the bottom and up at the top. To close the surface without a visible seam, I duplicated the last vertex of each ring so the UVs wrap correctly: the copy reuses the normal of the first vertex, and the neighbour lookup skips it. For the UVs, U comes from the position around the ring and V from the distance accumulated along the profile, normalized between 0 and 1 and multiplied by a tiling value."],
  links:[["Source code","#"]],gallery:[]},
 {id:"onevr",cat:CATEGORIES[2],title:"OneVrJueguitoMore",year:"2026",team:"Team of 2",role:"Spell, gesture & gameplay programmer",
- engine:"Unity 6, C#, XR Hands, Meta Quest 2 and 3",gif:"",video:"media/gifvr.mp4",
+ engine:"Unity 6, C#, XR Hands, Meta Quest 2 and 3",gif:"",video:"media/gifvr.mp4",vimeo:"1241220854",ratio:"4/3",
  summary:"A VR magic game where you cast spells with your bare hands using gesture recognition.",
  tags:["Unity","C#","VR","Gestures"],
  overview:"OneVrJueguitoMore is a first-person fantasy VR game for Meta Quest 2 and 3 that you play with your bare hands: no controllers, no buttons. You are Khedius, a young mage with great potential and apprentice of the archmage Serath, in a medieval fantasy world where cities are protected by magic shields. Some mages have turned to evil and allied with intelligent monsters to bring those barriers down, and it is up to you to defeat your enemies and save the world.<br><br>You cast spells with real gestures: arm a fireball and throw it at your enemies, hold up your left fist to raise a shield, and teleport to move around. A tutorial level with signs teaches each gesture, and a training area lets you practise on enemies. The game uses a low poly dungeon look to run smoothly on Quest, and teleport-only movement so that nobody gets motion sick. I programmed the spells, the gesture recognition and most of the gameplay. My teammate built the teleport, the enemies, the audio and the animations.",
@@ -177,7 +178,7 @@ const PROJECTS=[
  challenges:["Every system in the spell code came from weekly playtest sessions and was added step by step.","<b>Gestures too similar and uncomfortable.</b> In the first prototype, the fireball and teleport gestures looked alike and the fireball was awkward to throw. I replaced the fireball gesture with a more distinct one.","<b>Hard to use in combat and hard to aim.</b> The new gesture was still uncomfortable under pressure, and testers could not aim precisely. I redesigned it into two phases (a rock shape arms it, an open palm confirms it, then a push throws it) and added auto-aim.","<b>Gestures flickering and cancelling.</b> Hand tracking is noisy, so the gesture score oscillated around the threshold and spells cancelled by themselves. I used a high threshold to start a gesture, a lower one (94%) to keep it, and a few frames of tolerance before a two-phase spell fails.","<b>Unreliable throws.</b> The throw direction jittered and fired by mistake after teleports. I smoothed the direction, added a cooldown and ignored the speed on teleport frames.","<b>Fireball blocking the view.</b> The last playtest showed the fireball in the hand covered part of the screen. I changed its visuals by phase: a small spark particle effect while arming, a very small flame once confirmed, and the fireball only grows to its full size after it is thrown."],
  links:[["Source code","#"],["Video","#"]],gallery:[]},
 {id:"survive-the-candy",cat:CATEGORIES[2],title:"Survive the Candy",year:"2026 (48h jam)",team:"Team of 8 (4 programmers)",role:"Gameplay & enemy programmer",
- engine:"Unity, C#",gif:"",video:"media/gifjam.mp4",
+ engine:"Unity, C#",gif:"",video:"media/gifjam.mp4",vimeo:"1241220857",ratio:"16/9",
  summary:"A 2.5D co-op survival game: two siblings manage their oxygen in a candy world to bring gas masks to their family.",
  tags:["Unity","C#","Game Jam","Co-op"],
  overview:"Made in 48 hours at the ADEVI Game Jam 2026 by a team of 8 (3 artists, 1 designer and 4 programmers). The theme was masks. It is a 2.5D cooperative game in the style of Don't Starve or Cult of the Lamb. The two protagonists are siblings who must manage their oxygen supply in a world of sweets whose inhabitants want to kill them. The goal is to get gas masks for the rest of the family, locked in a shelter: in each of three villages you defeat its enemies to unlock the mask, pick it up and return to the base.",
@@ -185,7 +186,7 @@ const PROJECTS=[
  challenges:["<b>The game was not fun halfway through (team).</b> At the midpoint of the jam we played it and it was not fun, and it did not match what we were aiming for. We dropped several things, including the player melee attack I had made, and gave the game a new focus. That is how the rope appeared, used as a weapon that also links both players.","<b>Mortar attack.</b> I did not know how to approach it at first. I solved it by researching formulas and existing implementations, and adapting them to build the projectile and its trail."],
  links:[["Play on itch.io","#"]],gallery:[]},
 {id:"space-rush",cat:CATEGORIES[2],title:"Space Rush",year:"2026 (~2 months)",team:"Team of 2",role:"Ship controller & gameplay programmer",
- engine:"Unity, C#, Input System",gif:"",video:"media/gifrunner.mp4",
+ engine:"Unity, C#, Input System",gif:"",video:"media/gifrunner.mp4",vimeo:"1241221010",ratio:"4/3",
  summary:"An infinite runner where you fly a spaceship through a tunnel, with highly tunable movement.",
  tags:["Unity","C#","Player Controller","Collisions"],
  overview:"Space Rush is an infinite runner in which you pilot a spaceship down a tunnel that never stops getting faster. Dodge the obstacles, collect pickups and use your dash, which has a limited number of charges that recover over time, to get through tight spots. The run ends when you crash, and your score adds the meters you travelled and the pickups you collected, each worth 100. A short tutorial at the start teaches the dash.<br><br>I worked mainly on how the ship feels to fly: acceleration, braking, tilt and the dash are all tunable, and the handling changes as the tunnel speeds up. I also made the tutorial, the camera and the score and death screens. We were a team of two and made it in about two months.",
@@ -193,7 +194,7 @@ const PROJECTS=[
  challenges:["<b>Animations with rotations.</b> The ship tilt and the dash roll had to work together and transition smoothly. I stored the ship's rotation when the dash starts and interpolate from it, going out and back, while the normal tilt is rebuilt from the velocity every frame.","<b>Tunnel assets with bad colliders.</b> The tunnel came from free store assets and its colliders were not well made, so physics collisions were unreliable. I wrote a small custom collision handling: pickups are recognised by layer, touching an obstacle ends the run, and staying in contact needs two consecutive checks before the ship dies, so a badly shaped collider does not cause an unfair death."],
  links:[["Source code","#"]],gallery:[]},
 {id:"mystic-caverns",cat:CATEGORIES[2],title:"Mystic Caverns",year:"2026 (~2 months)",team:"Team of 2",role:"Enemy & boss AI programmer",
-engine:"Unity, C#, ScriptableObjects, NavMesh",gif:"",video:"media/gitbullethell.mp4",
+engine:"Unity, C#, ScriptableObjects, NavMesh",gif:"",video:"media/gifbullethell.mp4",vimeo:"1241220923",ratio:"16/9",
  summary:"A bullet hell with data-driven enemies and a three-phase boss.",
  tags:["Unity","C#","Enemy AI","ScriptableObjects"],
  overview:"Mystic Caverns is a bullet hell in which you survive waves of enemies that grow stronger the longer they stay alive. Some enemies chase you, others wander around the map, and they attack with melee hits or different bullet patterns: single shots, rings of bullets or loops. Defeated enemies drop experience orbs that fly towards you.<br><br>At the end you face a final boss with three phases. Each phase makes it faster, changes how often it attacks and upgrades its bullets, and in the last one it also summons enemies around it. I made the enemies, the boss and the waves, and I set it all up so that a designer can create and tune enemies without touching code. We were a team of two and made it in about two months.",
@@ -206,6 +207,7 @@ engine:"Unity, C#, ScriptableObjects, NavMesh",gif:"",video:"media/gitbullethell
 const $=s=>document.querySelector(s),list=$("#list"),dlg=$("#dlg");
 let cur="All";
 const media=(p,big)=>p.video?`<video src="${p.video}#t=0.1" muted loop playsinline preload="metadata" ${big?"controls autoplay":""} aria-label="${p.title} gameplay"></video>`:p.gif?`<img src="${p.gif}" alt="${p.title} gameplay" loading="lazy">`:p.title.split(" ").slice(0,2).map(w=>w[0]).join("");
+const hero=p=>p.vimeo?`<div class="hero2 v" style="aspect-ratio:${p.ratio||"16/9"};width:min(100%,calc(62vh*(${p.ratio||"16/9"})))"><iframe src="https://player.vimeo.com/video/${p.vimeo}?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="${p.title} gameplay"></iframe></div>`:`<div class="hero2">${media(p,1)}</div>`;
 let io;
 function observe(){
   io=io||new IntersectionObserver(es=>es.forEach(x=>{const v=x.target;x.isIntersecting?v.play().catch(()=>{}):v.pause()}),{threshold:.25});
@@ -222,7 +224,7 @@ function render(){
 function open(id){
   const p=PROJECTS.find(x=>x.id===id);if(!p)return;
   const real=u=>u&&u!=="#",ls=p.links.filter(l=>real(l[1]));
-  $("#dc").innerHTML=`<div class="hero2">${media(p,1)}</div><div class="dbody"><h2 id="dt">${p.title}</h2>
+  $("#dc").innerHTML=`${hero(p)}<div class="dbody"><h2 id="dt">${p.title}</h2>
   <div class="facts"><div><b>Year</b>${p.year}</div><div><b>Team</b>${p.team}</div><div><b>My role</b>${p.role}</div><div><b>Tech</b>${p.engine}</div></div>
   <p>${p.overview}</p><h4>What I built</h4><ul>${p.features.map(f=>`<li>${f}</li>`).join("")}</ul>
   <h4>Challenges and solutions</h4>${Array.isArray(p.challenges)?`<ul>${p.challenges.map(c=>`<li>${c}</li>`).join("")}</ul>`:`<p>${p.challenges}</p>`}
